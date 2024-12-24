@@ -1,0 +1,28 @@
+name: Deploy to cPanel via SFTP
+
+on:
+  push:
+    branches:
+      - main   # Replace with the branch you want to deploy from
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up SFTP with the necessary credentials
+      - name: Deploy files to cPanel via SFTP
+        run: |
+          sudo apt-get install -y lftp  # Install the lftp client
+          lftp -u ${{ secrets.CPANEL_USER }},${{ secrets.CPANEL_PASS }} sftp://${{ secrets.CPANEL_HOST }} << EOF
+          mirror -R ./ /home/code/public_html/codefly/  # Upload the files
+          quit
+          EOF
+        env:
+          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+          CPANEL_USER: ${{ secrets.CPANEL_USER }}
+          CPANEL_PASS: ${{ secrets.CPANEL_PASS }}
