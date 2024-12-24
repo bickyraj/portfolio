@@ -21,7 +21,7 @@ jobs:
       # Step 3: Set up SFTP with the necessary credentials
       - name: Deploy files to cPanel via SFTP
         run: |
-          lftp -u ${{ secrets.CPANEL_USER }},${{ secrets.CPANEL_PASS }} ftp://${{ secrets.CPANEL_HOST }} -e "set ssl:verify-certificate false; mirror -R ./ /home/code/public_html/codefly/ && quit"
+          lftp -u ${{ secrets.CPANEL_USER }},${{ secrets.CPANEL_PASS }} ftp://${{ secrets.CPANEL_HOST }}:2121 -e "set ssl:verify-certificate false; mirror -R ./ /home/code/public_html/codefly/ && quit"
         env:
           CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
           CPANEL_USER: ${{ secrets.CPANEL_USER }}
