@@ -11,18 +11,18 @@ jobs:
 
     steps:
       # Step 1: Checkout code
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # Step 2: Install lftp client
-      - name: Install lftp client
-        run: sudo apt-get install -y lftp
-
-      # Step 3: Set up SFTP with the necessary credentials
-      - name: Deploy files to cPanel via SFTP
-        run: |
-          lftp -u ${{ secrets.CPANEL_USER }},${{ secrets.CPANEL_PASS }} sftp://${{ secrets.CPANEL_HOST }} -e "set ssl:verify-certificate false; mirror -R ./ /home/code/public_html/codefly/ && quit"
-        env:
-          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
-          CPANEL_USER: ${{ secrets.CPANEL_USER }}
-          CPANEL_PASS: ${{ secrets.CPANEL_PASS }}
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      # Step 2: Install lftp client
+#      - name: Install lftp client
+#        run: sudo apt-get install -y lftp
+#
+#      # Step 3: Set up SFTP with the necessary credentials
+#      - name: Deploy files to cPanel via SFTP
+#        run: |
+#          lftp -u ${{ secrets.CPANEL_USER }},${{ secrets.CPANEL_PASS }} sftp://${{ secrets.CPANEL_HOST }} -e "set ssl:verify-certificate false; mirror -R ./ /home/code/public_html/codefly/ && quit"
+#        env:
+#          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+#          CPANEL_USER: ${{ secrets.CPANEL_USER }}
+#          CPANEL_PASS: ${{ secrets.CPANEL_PASS }}
