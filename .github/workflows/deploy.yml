@@ -28,6 +28,7 @@ jobs:
           port: ${{ secrets.FTP_PORT }}  # FTP port (21)
           local-dir: ./  # Directory from the repository to deploy (root folder)
           server-dir: /public_html/codefly/  # Remote directory (inside "codefly")
+          sync-mode: true
           dry-run: false  # Set to false to actually deploy files
           log-level: verbose  # Enable detailed logs for debugging
 
