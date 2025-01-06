@@ -1,4 +1,4 @@
-name: Deploy to cPanel via SFTP
+name: Deploy to cPanel via FTP
 
 on:
   push:
@@ -18,11 +18,24 @@ jobs:
       - name: Install lftp client
         run: sudo apt-get install -y lftp
 
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.5.0
+        with:
+          server: ${{ secrets.FTP_HOST }}  # FTP server host (codewiggle.com)
+          username: ${{ secrets.FTP_USERNAME }}  # FTP username from secrets
+          password: ${{ secrets.FTP_PASSWORD }}  # FTP password from secrets
+          protocol: ftp  # FTP protocol
+          port: ${{ secrets.FTP_PORT }}  # FTP port (21)
+          local-dir: ./  # Directory from the repository to deploy (root folder)
+          server-dir: /public_html/codefly  # Remote directory (inside "codefly")
+          dry-run: false  # Set to false to actually deploy files
+          log-level: verbose  # Enable detailed logs for debugging
+
       # Step 3: Set up SFTP with the necessary credentials
-      - name: Deploy files to cPanel via ftp
-        run: |
-          lftp -u ${{ secrets.CPANEL_USER }},${{ secrets.CPANEL_PASS }} ftp://${{ secrets.CPANEL_HOST }} -e "set ssl:verify-certificate false; mirror -R ./ /home/code/public_html/codefly/ && quit"
-        env:
-          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
-          CPANEL_USER: ${{ secrets.CPANEL_USER }}
-          CPANEL_PASS: ${{ secrets.CPANEL_PASS }}
+#      - name: Deploy files to cPanel via ftp
+#        run: |
+#          lftp -u ${{ secrets.CPANEL_USER }},${{ secrets.CPANEL_PASS }} ftp://${{ secrets.CPANEL_HOST }} -e "set ssl:verify-certificate false; mirror -R ./ /home/code/public_html/codefly/ && quit"
+#        env:
+#          CPANEL_HOST: ${{ secrets.CPANEL_HOST }}
+#          CPANEL_USER: ${{ secrets.CPANEL_USER }}
+#          CPANEL_PASS: ${{ secrets.CPANEL_PASS }}
