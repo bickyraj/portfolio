@@ -19,7 +19,7 @@ jobs:
         run: sudo apt-get install -y lftp
 
       - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.5.0
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           server: ${{ secrets.FTP_HOST }}  # FTP server host (codewiggle.com)
           username: ${{ secrets.FTP_USERNAME }}  # FTP username from secrets
